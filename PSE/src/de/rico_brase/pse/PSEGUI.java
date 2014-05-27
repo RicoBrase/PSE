@@ -15,12 +15,13 @@ public class PSEGUI extends JFrame{
 
 	private static final long serialVersionUID = -3590792696466282382L;
 	
-	private File[] elements;
+	@SuppressWarnings("unused")
+	private ElementFile[] elements;
 	
 	public PSEGUI(){
 		super("Periodensystem der Elemente");
 		
-		elements = getFiles();
+		elements = ElementFile.getElementFiles(getFiles());
 		
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,9 +55,6 @@ public class PSEGUI extends JFrame{
 			}
 		}
 		
-		//for(int i = 0; i < elements.length; i++){
-			
-		//}
 	}
 	
 	public boolean elementExists(int x, int y){
