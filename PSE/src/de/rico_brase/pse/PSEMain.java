@@ -13,6 +13,10 @@ public class PSEMain {
 		elements = new ArrayList<Element>();
 		
 		new PSEGUI();
+		
+//		for(Element e : elements){
+//			System.out.println(e.getProperties().getSymbol());
+//		}
 	}
 	
 }

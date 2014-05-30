@@ -5,17 +5,17 @@ import java.util.HashMap;
 
 public class Properties {
 
-	private String symbol;
-	private int group;
-	private int period;
+	private String symbol = "empty";
+	private int group = 0;
+	private int period = 0;
 	
-	private char stateofmatter;
+	private char stateofmatter = '-';
 	
-	private double mass;
-	private double density;
+	private double mass = 0.0;
+	private double density = 0.0;
 	
-	private double melting;
-	private double boiling;
+	private double melting = 0.0;
+	private double boiling = 0.0;
 	
 	public Properties(HashMap<String,String> map){
 		if(map.containsKey("symbol") && map.containsKey("group") && map.containsKey("period") && map.containsKey("state") && 
@@ -38,6 +38,14 @@ public class Properties {
 	
 	public String getSymbol(){
 		return this.symbol;
+	}
+	
+	public int getGroup(){
+		return this.group;
+	}
+	
+	public int getPeriod(){
+		return this.period;
 	}
 	
 	private double convertToDouble(String s){

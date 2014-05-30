@@ -9,6 +9,14 @@ public class Element {
 	
 	private Properties prop;
 	
+	public Element(Properties p){
+		this.prop = p;
+	}
+	
+	public Properties getProperties(){
+		return this.prop;
+	}
+	
 	public void draw(Graphics g){
 		
 	}
