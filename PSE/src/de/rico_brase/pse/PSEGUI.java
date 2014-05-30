@@ -1,17 +1,21 @@
 package de.rico_brase.pse;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import de.rico_brase.pse.element.Properties;
-import de.rico_brase.pse.listeners.GUIListener;
+import de.rico_brase.pse.listeners.SymbolClickListener;
 import de.rico_brase.pse.utils.ElementFile;
 import de.rico_brase.pse.utils.PSEFilter;
 
@@ -21,7 +25,10 @@ public class PSEGUI extends JFrame{
 	
 	private ElementFile[] elements;
 	
+	private HashMap<String,JLabel> symbols;
+	
 	private Font elementFont;
+	private boolean paint = true;
 	
 	public PSEGUI(){
 		super("Periodensystem der Elemente");
@@ -35,62 +42,87 @@ public class PSEGUI extends JFrame{
 		
 		elementFont = new Font("Arial",Font.BOLD, 28);
 		
+		symbols = new HashMap<String,JLabel>();
+		
 		int height = new Double(Toolkit.getDefaultToolkit().getScreenSize().getHeight()).intValue();
 		int width = new Double(Toolkit.getDefaultToolkit().getScreenSize().getWidth()).intValue();
 		
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
 		this.setBounds(0, 0, width, height);
-		this.addWindowStateListener(new GUIListener(this));
+		//this.addWindowStateListener(new GUIListener(this));
 		
 		showWindow();
 	}
 	
 	public void paint(Graphics g){
+		
+		paintComponents(g);
 		paintPSE(g);
 	}
 	
 	public void showWindow(){
+		
 		this.setVisible(true);
+		this.readyLabels();
+		for(JLabel l : symbols.values()){			
+			this.add(l);
+			System.out.println("Added Label: " + l.getText());
+			//System.out.println("x: " + l.getBounds().getX() + " y: " + l.getBounds().getY());			
+		}
+		repaint();
 	}
 	
 	public void paintPSE(Graphics g){
-		
-//		g.setColor(Color.decode("#e8e8e8"));
-//		g.drawRect(0, 0, this.getWidth(), this.getHeight());
-//		g.setColor(Color.BLACK);
-		
 		for(int y = 1; y <= 9; y++){
 			for(int x = 1; x <= 18; x++){
 				if(elementExists(x, y)){
 					g.setColor(Color.BLACK);
-					
 					if((y == 8 || y == 9)){
 						if((x >= 3 && x != 18)){
-							g.drawRect((x*50)+15, (y*75)+55, 50, 75);
+							g.drawRect((x*60)+15, (y*75)+55, 60, 75);		
+						}
+					}else{
+						g.drawRect((x*60)+15, (y*75)+35, 60, 75);
+					}
+				}
+			}
+		}		
+	}
+	
+	public void readyLabels(){
+		for(int y = 1; y <= 9; y++){
+			for(int x = 1; x <= 18; x++){
+				if(elementExists(x, y)){					
+					if((y == 8 || y == 9)){
+						if((x >= 3 && x != 18)){
 							for(ElementFile ef : elements){
 								if(ef.getElement().getProperties().getGroup() == x && ef.getElement().getProperties().getPeriod() == y){
-									g.setFont(elementFont);
-									g.drawString(ef.getElement().getProperties().getSymbol(), (x*50)+15, (y*75)+55);
 									
 								}
 							}
 							
 						}
 					}else{
-						g.drawRect((x*50)+15, (y*75)+35, 50, 75);
 						for(ElementFile ef : elements){
 							Properties p = ef.getElement().getProperties();
 							if(p.getGroup() == x && p.getPeriod() == y){
-								g.setFont(elementFont);
-								g.drawString(p.getSymbol(), (x*50)+15+(14/p.getSymbol().length()), (y*75)+55+14);
+								JLabel elem = new JLabel(p.getSymbol());
+								elem.setFont(elementFont);
+								elem.setForeground(Color.BLACK);
+								int dpi = Toolkit.getDefaultToolkit().getScreenResolution();
+								FontMetrics fm = elem.getFontMetrics(elementFont);
+								Float cW = new Float(fm.charsWidth(p.getSymbol().toCharArray(), 0, p.getSymbol().length()));
+								elem.setBounds((x*60)+8+30-cW.intValue()/2, (y*75)+15, cW.intValue(), 50);
+								elem.addMouseListener(new SymbolClickListener(ef.getElement()));
+								symbols.put(p.getSymbol(), elem);
 							}
 						}
 					}
 				}
 			}
-		}
-		
+		}	
 	}
 	
 	public boolean elementExists(int x, int y){
