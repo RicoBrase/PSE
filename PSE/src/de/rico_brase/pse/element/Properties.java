@@ -1,5 +1,6 @@
 package de.rico_brase.pse.element;
 
+import java.awt.Color;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
@@ -46,6 +47,37 @@ public class Properties {
 	
 	public int getPeriod(){
 		return this.period;
+	}
+	
+	public Color getSeriesColor(){
+		
+		if(getGroup() == 1 && getPeriod() >= 2){
+			return Color.decode("#FF4500");
+		}
+		if((getGroup() == 1 && getPeriod() == 1) || ((getPeriod() == 2 && getGroup() >= 14 && getGroup() <= 16) || (getPeriod() == 3 && getGroup() >= 15 && getGroup() <= 16))){
+			return Color.decode("#32CD32");
+		}
+		if(getGroup() == 2){
+			return Color.decode("#FF8C00");
+		}
+		if(getGroup() >= 3 && getGroup() <=12 && getPeriod() != 8 && getPeriod() != 9){
+			return Color.decode("#F08080");
+		}
+		
+		if(getPeriod() == 8){
+			return Color.decode("#DDA0DD");
+		}
+		if(getPeriod() == 9){
+			return Color.decode("#DA70D6");
+		}
+		if(getGroup() == 17){
+			return Color.decode("#F0E68C");
+		}
+		if(getGroup() == 18){
+			return Color.decode("#87CEFA");
+		}
+		
+		return Color.decode("#eeeeee");
 	}
 	
 	private double convertToDouble(String s){

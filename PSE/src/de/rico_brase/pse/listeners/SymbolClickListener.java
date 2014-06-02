@@ -2,13 +2,12 @@ package de.rico_brase.pse.listeners;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 
+import de.rico_brase.pse.PSEGUI;
 import de.rico_brase.pse.SingleElementGUI;
 import de.rico_brase.pse.element.Element;
 
@@ -40,6 +39,8 @@ public class SymbolClickListener implements MouseListener{
 	public void mouseEntered(MouseEvent e) {
 		JLabel label = (JLabel) e.getSource();
 		label.setForeground(Color.RED);
+		label.setBackground(PSEGUI.colors.get(el.getProperties().getGroup()));
+//		label.setOpaque(true);
 		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
@@ -47,6 +48,7 @@ public class SymbolClickListener implements MouseListener{
 	public void mouseExited(MouseEvent e) {
 		JLabel label = (JLabel) e.getSource();
 		label.setForeground(Color.BLACK);
+		label.setBackground(PSEGUI.colors.get(el.getProperties().getGroup()));
 		label.setCursor(Cursor.getDefaultCursor());
 	}
 

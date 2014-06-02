@@ -2,6 +2,8 @@ package de.rico_brase.pse.element;
 
 import java.awt.Graphics;
 
+import de.rico_brase.pse.PSEMain;
+
 public class Element {
 
 	private String gname;
@@ -17,7 +19,15 @@ public class Element {
 		return this.prop;
 	}
 	
-	public void draw(Graphics g){
+	public static Element getByPeriodAndGroup(int g, int p){
+		
+		for(Element e : PSEMain.elements){
+			if(e.getProperties().getGroup() == g && e.getProperties().getPeriod() == p){
+				return e;
+			}
+		}
+		
+		return null;
 		
 	}
 	
