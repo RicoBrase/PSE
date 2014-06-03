@@ -11,12 +11,7 @@ public class PSEMain {
 
 	public static void main(String[] args){
 		elements = new ArrayList<Element>();
-		
 		new PSEGUI();
-		
-//		for(Element e : elements){
-//			System.out.println(e.getProperties().getSymbol());
-//		}
 	}
 	
 }

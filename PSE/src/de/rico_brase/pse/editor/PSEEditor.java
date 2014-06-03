@@ -4,10 +4,13 @@ import java.io.File;
 import java.net.URI;
 import java.net.URL;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import de.rico_brase.pse.listeners.RequestFocusListener;
 import de.rico_brase.pse.utils.ElementFile;
 import de.rico_brase.pse.utils.PSEFilter;
 
@@ -16,6 +19,12 @@ public class PSEEditor extends JFrame{
 	private static final long serialVersionUID = 9191868031240999463L;
 	
 	JComboBox<String> listbox;
+	JButton add;
+	JButton edit;
+	JButton delete;
+	JTextField symbol;
+	JComboBox<String> group;
+	JComboBox<String> period;
 	
 	public PSEEditor(){
 		super("PSE-Editor");
@@ -26,7 +35,6 @@ public class PSEEditor extends JFrame{
 			e.printStackTrace();
 		}
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, 350, 500);
 		this.setLayout(null);
 		this.setLocationRelativeTo(null);
@@ -36,20 +44,30 @@ public class PSEEditor extends JFrame{
 		
 	}
 	
-	public static void main(String[] args){
-		new PSEEditor();
-	}
-	
 	public void init(){
 		
 		String[] filenames = getFileNames(getFiles());
 		listbox = new JComboBox<String>(filenames);
+		listbox.setBounds(5, 5, 335, 25);
+		//listbox.addAncestorListener(new RequestFocusListener(false));
 		
-		listbox.setBounds(5, 5, 200, 25);
+		add = new JButton("Hinzufügen...");
+		add.setBounds(5, 35, 120, 25);
+		
+		edit = new JButton("Ändern");
+		edit.setBounds(130, 35, 85, 25);
+		
+		delete = new JButton("Löschen");
+		delete.setBounds(220, 35, 120, 25);
 		
 		this.add(listbox);
+		this.add(add);
+		this.add(edit);
+		this.add(delete);
 		
 		this.setVisible(true);
+		
+		this.requestFocusInWindow();
 	}
 	
 	public String[] getFileNames(File[] files){

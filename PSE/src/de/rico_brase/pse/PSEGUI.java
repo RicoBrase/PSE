@@ -2,11 +2,14 @@ package de.rico_brase.pse;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
 import java.io.File;
 import java.net.URI;
@@ -16,8 +19,8 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
+import de.rico_brase.pse.editor.PSEEditor;
 import de.rico_brase.pse.element.Properties;
 import de.rico_brase.pse.listeners.SymbolClickListener;
 import de.rico_brase.pse.utils.ElementFile;
@@ -35,6 +38,7 @@ public class PSEGUI extends JFrame{
 	private Font elementFont;
 	
 	private JLabel title;
+	private JLabel openEditor;
 	
 	private PSEPanel panel;
 	
@@ -72,6 +76,41 @@ public class PSEGUI extends JFrame{
 		FontMetrics fm = title.getFontMetrics(elementFont);
 		Float cW = new Float(fm.charsWidth(title.getText().toCharArray(), 0, title.getText().length()));
 		
+		openEditor = new JLabel("Element-Editor öffnen...");
+		openEditor.setFont(boldUnderline.deriveFont(Font.PLAIN).deriveFont(Font.BOLD).deriveFont(20f));
+		openEditor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		openEditor.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new PSEEditor();
+			}
+		});
+		
+		FontMetrics fm2 = openEditor.getFontMetrics(boldUnderline.deriveFont(Font.PLAIN).deriveFont(Font.BOLD).deriveFont(20f));
+		Float cW2 = new Float(fm.charsWidth(openEditor.getText().toCharArray(), 0, openEditor.getText().length()));
+		
+		
 		height = new Double(Toolkit.getDefaultToolkit().getScreenSize().getHeight()).intValue();
 		width = new Double(Toolkit.getDefaultToolkit().getScreenSize().getWidth()).intValue();
 		
@@ -81,8 +120,10 @@ public class PSEGUI extends JFrame{
 		this.setBounds(0, 0, width-200, height-200);
 		//this.addWindowStateListener(new GUIListener(this));
 		
-		title.setBounds(this.getWidth()/2 - cW.intValue()/2, 20, cW.intValue(), 50);
+		title.setBounds(width/2 - cW.intValue()/2, 20, cW.intValue(), 50);
+		openEditor.setBounds(width/2 - cW2.intValue()/2, 10*75 + 20, cW2.intValue(), 50);
 		this.add(title);
+		this.add(openEditor);
 		
 		showWindow();
 	}
